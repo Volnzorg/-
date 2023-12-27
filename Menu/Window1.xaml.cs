@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,14 +35,47 @@ namespace Menu
         {
             "Down","Up","Right","Left","LeftUp","RightUp", "RightDown", "LeftDown", "Stay", "Stay", "Stay", "Stay"
         };
-        Rectangle box = new Rectangle
+        Rectangle box = new Rectangle // Граница Л-Г
         {
-            Height = 100,
-            Width = 100,
-            Fill = Brushes.Black,
-            Stroke = Brushes.Yellow,
-            Margin = new Thickness(100, 100, 0, 0),
+            Height = 1200,
+            Width = 10,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, -190, 0, 0),
             Tag = "Box",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        Rectangle box2 = new Rectangle // Граница Н-В
+        {
+            Height = 10,
+            Width = 1600,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, 795, 0, 0),
+            Tag = "Box2",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        Rectangle box3 = new Rectangle // Граница В-В
+        {
+            Height = 10,
+            Width = 1600,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, 0, 0, 0),
+            Tag = "Box3",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        Rectangle box4 = new Rectangle // Граница П-Г
+        {
+            Height = 1200,
+            Width = 10,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(1525, 0, 0, 0),
+            Tag = "Box4",
             VerticalAlignment = VerticalAlignment.Top,
             HorizontalAlignment = HorizontalAlignment.Left,
         };
@@ -64,7 +98,8 @@ namespace Menu
         Image Coin = new Image
         {
             Name = "coin",
-            Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Coin.png", UriKind.Absolute)),
+            Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/coin.png", UriKind.Absolute)),
+            
             Height = 30,
             Width = 30,
             Stretch = Stretch.Fill,
@@ -110,7 +145,7 @@ namespace Menu
             timer.Tick += CollusionCheck;
             timer.Interval = TimeSpan.FromMilliseconds(16);
             timer.Start();
-            Grid1.Children.Add(box);
+            Grid1.Children.Add(box);  Grid1.Children.Add(box2);   Grid1.Children.Add(box3);  Grid1.Children.Add(box4);
             Windows.Content = Grid1;
             Grid1.Children.Add(Player);
             EnemyCount = CountOfEnemy.Next(1, 3);
@@ -422,6 +457,7 @@ namespace Menu
 
         private void Collision(string Dir)
         {
+
             foreach (var y in ImageToDel)
             {
                 Grid1.Children.Remove(y);
@@ -449,6 +485,62 @@ namespace Menu
                             Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
                             PlayerSpeedY = 0;
                         }
+
+
+                    }
+                }
+                if (x is Rectangle && (string)x.Tag == "Box2")
+                {
+                    Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
+                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
+                    {
+                        if (Dir == "x")
+                        {
+                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
+                            PlayerSpeedX = 0;
+                        }
+                        else
+                        {
+                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
+                            PlayerSpeedY = 0;
+                        }
+                    }
+                }
+                if (x is Rectangle && (string)x.Tag == "Box3")
+                {
+                    Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
+                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
+                    {
+                        if (Dir == "x")
+                        {
+                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
+                            PlayerSpeedX = 0;
+                        }
+                        else
+                        {
+                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
+                            PlayerSpeedY = 0;
+                        }
+                    }
+
+                }
+                if (x is Rectangle && (string)x.Tag == "Box4")
+                {
+                    Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
+                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
+                    {
+                        if (Dir == "x")
+                        {
+                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
+                            PlayerSpeedX = 0;
+                        }
+                        else
+                        {
+                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
+                            PlayerSpeedY = 0;
+                        }
+
+
                     }
                 }
             }
@@ -466,7 +558,7 @@ namespace Menu
                         }
                         if ((string)x.Name == "SpeedUp")
                         {
-                            Speed += 5;
+                            Speed += 1;
                             ImageToDel.Add(x);
                         }
                     }
@@ -487,15 +579,16 @@ namespace Menu
                 }
             if (EnemyCount == 0)
             {
+
                 Image CoinS = new Image
-                {
+                {                  
                     Name = "coin",
-                    Source = new BitmapImage(new Uri("C:\\Users\\Alexei\\Desktop\\Menu\\Menu\\Images\\Coin.png", UriKind.Absolute)),
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/coin.png", UriKind.Absolute)),
                     Height = 30,
                     Width = 30,
                     Stretch = Stretch.Fill,
                     Tag = "Collectables",
-                    Margin = new Thickness(cordx, cordy, 0, 0),
+                    Margin = new Thickness(cordx +70, cordy + 70, 0, 0),
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalAlignment = HorizontalAlignment.Left,
                 };
