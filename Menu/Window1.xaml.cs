@@ -35,50 +35,7 @@ namespace Menu
         {
             "Down","Up","Right","Left","LeftUp","RightUp", "RightDown", "LeftDown", "Stay", "Stay", "Stay", "Stay"
         };
-        Rectangle box = new Rectangle // Граница Л-Г
-        {
-            Height = 1200,
-            Width = 10,
-            Fill = Brushes.DarkRed,
 
-            Margin = new Thickness(0, -190, 0, 0),
-            Tag = "Box",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-        Rectangle box2 = new Rectangle // Граница Н-В
-        {
-            Height = 10,
-            Width = 1600,
-            Fill = Brushes.DarkRed,
-
-            Margin = new Thickness(0, 795, 0, 0),
-            Tag = "Box2",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-        Rectangle box3 = new Rectangle // Граница В-В
-        {
-            Height = 10,
-            Width = 1600,
-            Fill = Brushes.DarkRed,
-
-            Margin = new Thickness(0, 0, 0, 0),
-            Tag = "Box3",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-        Rectangle box4 = new Rectangle // Граница П-Г
-        {
-            Height = 1200,
-            Width = 10,
-            Fill = Brushes.DarkRed,
-
-            Margin = new Thickness(1525, 0, 0, 0),
-            Tag = "Box4",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
         Rectangle Player = new Rectangle
         {
             Height = 70,
@@ -122,6 +79,53 @@ namespace Menu
             HorizontalAlignment = HorizontalAlignment.Left,
         };
 
+        Rectangle box = new Rectangle // Граница Л-Г
+        {
+            Name = "BorderL",
+            Height = 0,
+            Width = 1,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, 0, 0, 0),
+            Tag = "Border",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        Rectangle box2 = new Rectangle // Граница Н-В
+        {
+            Height = 1,
+            Width = 0,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, 0, 0, 0),
+            Tag = "Border",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        Rectangle box3 = new Rectangle // Граница В-В
+        {
+            Name = "BorederUp",
+            Height = 1,
+            Width = 0,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, 0, 0, 0),
+            Tag = "Border",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+        Rectangle box4 = new Rectangle // Граница П-Г
+        {
+            Height = 0,
+            Width = 1,
+            Fill = Brushes.DarkRed,
+
+            Margin = new Thickness(0, 0, 0, 0),
+            Tag = "Border",
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+        };
+
         public Window1()
         {
             InitializeComponent();
@@ -130,11 +134,15 @@ namespace Menu
             DispatcherTimer EnemyMovement = new DispatcherTimer();
             DispatcherTimer PlayerMovement = new DispatcherTimer();
             DispatcherTimer BulletMovement = new DispatcherTimer();
+            DispatcherTimer BorderCreator = new DispatcherTimer();
+            BorderCreator.Tick += Screen_Borders;
+            BorderCreator.Interval = TimeSpan.FromMilliseconds(200);
+            BorderCreator.Start();
             damageCheck.Tick += Damage_Check;
-            damageCheck.Interval = TimeSpan.FromSeconds(1);
+            damageCheck.Interval = TimeSpan.FromSeconds(50);
             damageCheck.Start();
             BulletMovement.Tick += Bullet_Movement;
-            BulletMovement.Interval = TimeSpan.FromMilliseconds(20);
+            BulletMovement.Interval = TimeSpan.FromMilliseconds(10);
             BulletMovement.Start();
             PlayerMovement.Tick += Player_Movement;
             PlayerMovement.Interval = TimeSpan.FromMilliseconds(20);
@@ -145,8 +153,8 @@ namespace Menu
             timer.Tick += CollusionCheck;
             timer.Interval = TimeSpan.FromMilliseconds(16);
             timer.Start();
-            Grid1.Children.Add(box);  Grid1.Children.Add(box2);   Grid1.Children.Add(box3);  Grid1.Children.Add(box4);
             Windows.Content = Grid1;
+            Grid1.Children.Add(box); Grid1.Children.Add(box2); Grid1.Children.Add(box3); Grid1.Children.Add(box4);
             Grid1.Children.Add(Player);
             EnemyCount = CountOfEnemy.Next(1, 3);
             Enemy_Spawn(EnemyCount);
@@ -167,6 +175,25 @@ namespace Menu
                     }
                 }
             }
+        }
+
+        private void Screen_Borders(object sender, EventArgs e)
+        {
+
+            foreach (var x in Grid1.Children.OfType<Rectangle>())
+            {
+                if (x is Rectangle && (string)x.Tag == "Border")
+                {
+                    if ((x.Name == "BorderL" && x.ActualHeight != Windows.ActualHeight) || (x.Name == "BorderUp" && x.ActualWidth != Windows.ActualWidth))
+                    {
+                        box4.Height = Windows.ActualHeight; box4.Margin = new Thickness(Windows.ActualWidth - 20, 0, 0, 0);
+                        box3.Width = Windows.ActualWidth - 30;
+                        box2.Width = Windows.ActualWidth - 30; box2.Margin = new Thickness(0, Windows.ActualHeight - 30, 0, 0);
+                        box.Height = Windows.ActualHeight - 30;
+                    }
+                }
+            }
+
         }
 
         private void Element_Spawn()
@@ -470,7 +497,7 @@ namespace Menu
 
             foreach (var x in Grid1.Children.OfType<Rectangle>())
             {
-                if (x is Rectangle && (string)x.Tag == "Box")
+                if (x is Rectangle && (string)x.Tag == "Border")
                 {
                     Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
                     if (BoxHitBox.IntersectsWith(PlayerHitBox))
@@ -489,60 +516,7 @@ namespace Menu
 
                     }
                 }
-                if (x is Rectangle && (string)x.Tag == "Box2")
-                {
-                    Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
-                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
-                    {
-                        if (Dir == "x")
-                        {
-                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
-                            PlayerSpeedX = 0;
-                        }
-                        else
-                        {
-                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
-                            PlayerSpeedY = 0;
-                        }
-                    }
-                }
-                if (x is Rectangle && (string)x.Tag == "Box3")
-                {
-                    Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
-                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
-                    {
-                        if (Dir == "x")
-                        {
-                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
-                            PlayerSpeedX = 0;
-                        }
-                        else
-                        {
-                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
-                            PlayerSpeedY = 0;
-                        }
-                    }
-
-                }
-                if (x is Rectangle && (string)x.Tag == "Box4")
-                {
-                    Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
-                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
-                    {
-                        if (Dir == "x")
-                        {
-                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
-                            PlayerSpeedX = 0;
-                        }
-                        else
-                        {
-                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
-                            PlayerSpeedY = 0;
-                        }
-
-
-                    }
-                }
+ 
             }
             foreach (var x in Grid1.Children.OfType<Image>())
             {
