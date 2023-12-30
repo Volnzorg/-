@@ -13,7 +13,6 @@ namespace Menu
         public Class1()
         {
             this.InitializeComponent();
-            Enemy_Spawn(1);
         }
     }
 }
