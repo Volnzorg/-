@@ -24,13 +24,13 @@ namespace Menu
         bool GoUp, GoDown, GoLeft, GoRight;
         string LastView, Stop, MoveS, Direct;
         public int ZombieSpeed = 3, HP = 100, spawnEnemy, spawnEnemyX, spawnEnemyY, BulletSpeed = 10, Score = 0, EnemyCount;
-        double PlayerSpeedX, PlayerSpeedY, Speed = 2, friction = 0.77;
         bool ShootUp, ShootDown, ShootLeft, ShootRight, EnemyExist = true;
         Random CountOfEnemy = new Random();
         Random Move = new Random();
+        Player player;
+
         List<Enemy> EnemyList = new List<Enemy>();
         List<Enemy> EnemyDel = new List<Enemy>();
-
         List<Image> ImageToDel = new List<Image>();
         List<Rectangle> RectToDel = new List<Rectangle>();
         List<string> RunMove = new List<string>()
@@ -49,16 +49,6 @@ namespace Menu
             Text = ""
         };
 
-        Rectangle Player = new Rectangle
-        {
-            Height = 70,
-            Width = 40,
-            Fill = Brushes.AntiqueWhite,
-            Margin = new Thickness(300, 300, 0, 0),
-            Tag = "player",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
 
         Grid Grid1 = new Grid
         {
@@ -143,6 +133,7 @@ namespace Menu
         public Window1()
         {
             InitializeComponent();
+            player = new Player();
             DispatcherTimer damageCheck = new DispatcherTimer();
             DispatcherTimer PlayerMovement = new DispatcherTimer();
             DispatcherTimer BulletMovement = new DispatcherTimer();
@@ -151,7 +142,7 @@ namespace Menu
             BorderCreator.Interval = TimeSpan.FromMilliseconds(200);
             BorderCreator.Start();
             damageCheck.Tick += Damage_Check;
-            damageCheck.Interval = TimeSpan.FromMilliseconds(500);
+            damageCheck.Interval = TimeSpan.FromSeconds(1);
             damageCheck.Start();
             BulletMovement.Tick += Bullet_Movement;
             BulletMovement.Tick += EnemiesKilled;
@@ -162,29 +153,20 @@ namespace Menu
             PlayerMovement.Start();
             Windows.Content = Grid1;
             Grid1.Children.Add(box); Grid1.Children.Add(box2); Grid1.Children.Add(box3); Grid1.Children.Add(box4);
-            Grid1.Children.Add(Player);
-            Spawner = new EnemySpawner(Grid1, Player, Windows);
-            EnemyCount = CountOfEnemy.Next(2, 3);
+            Spawner = new EnemySpawner(Grid1, player, Windows);
             Spawner.Enemy_Spawn("zomnie");
             Element_Spawn();
             Grid1.Children.Add(check);
+            player.PlayerModel.Margin = new Thickness(100, 100,0,0);
+            Grid1.Children.Add(player.PlayerModel);
         }
 
         private void Damage_Check(object sender, EventArgs e)
         {
-            Rect PlayerHitBox = new Rect(Player.Margin.Left, Player.Margin.Top, Player.ActualWidth, Player.ActualHeight);
-            foreach (var x in Grid1.Children.OfType<Rectangle>())
+            foreach (Enemy x in EnemyList)
             {
-                Rect EnemyHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
-                if (x is Rectangle && (string)x.Tag == "Enemy")
-                {
-                    if (EnemyHitBox.IntersectsWith(PlayerHitBox))
-                    {
-                        HP -= 20;
-                    }
-                }
+                player.DamageCheck(x.EnemyHitBox);
             }
-            check.Text = Spawner.enemyCount.ToString();
         }
 
         private void Screen_Borders(object sender, EventArgs e)
@@ -229,7 +211,7 @@ namespace Menu
                     Width = 5,
                     Fill = Brushes.Yellow,
                     Stroke = Brushes.Black,
-                    Margin = new Thickness(Player.Margin.Left + Player.ActualWidth, Player.Margin.Top + Player.ActualHeight / 2, 0, 0),
+                    Margin = new Thickness(player.PlayerModel.Margin.Left + player.PlayerModel.ActualWidth, player.PlayerModel.Margin.Top + player.PlayerModel.ActualHeight / 2, 0, 0),
                     Tag = "BulletRight",
                 };
                 Grid1.Children.Add(bulletR);
@@ -245,7 +227,7 @@ namespace Menu
                     Width = 5,
                     Fill = Brushes.Yellow,
                     Stroke = Brushes.Black,
-                    Margin = new Thickness(Player.Margin.Left, Player.Margin.Top + Player.ActualHeight / 2, 0, 0),
+                    Margin = new Thickness(player.PlayerModel.Margin.Left, player.PlayerModel.Margin.Top + player.PlayerModel.ActualHeight / 2, 0, 0),
                     Tag = "BulletLeft",
                 };
                 Grid1.Children.Add(bulletL);
@@ -261,7 +243,7 @@ namespace Menu
                     Width = 5,
                     Fill = Brushes.Yellow,
                     Stroke = Brushes.Black,
-                    Margin = new Thickness(Player.Margin.Left + Player.ActualWidth / 2, Player.Margin.Top, 0, 0),
+                    Margin = new Thickness(player.PlayerModel.Margin.Left + player.PlayerModel.ActualWidth / 2, player.PlayerModel.Margin.Top, 0, 0),
                     Tag = "BulletUp",
                 };
                 Grid1.Children.Add(bulletUp);
@@ -277,7 +259,7 @@ namespace Menu
                     Width = 5,
                     Fill = Brushes.Yellow,
                     Stroke = Brushes.Black,
-                    Margin = new Thickness(Player.Margin.Left + Player.ActualWidth / 2, Player.Margin.Top + Player.ActualHeight, 0, 0),
+                    Margin = new Thickness(player.PlayerModel.Margin.Left + player.PlayerModel.ActualWidth / 2, player.PlayerModel.Margin.Top + player.PlayerModel.ActualHeight, 0, 0),
                     Tag = "BulletDown",
                 };
                 Grid1.Children.Add(bulletDown);
@@ -305,6 +287,7 @@ namespace Menu
             {
                 EnemyList.Remove(x);
             }
+            check.Text = player.PlayerHP.ToString();
         }
 
         private void Bullet_Movement(object sender, EventArgs e)
@@ -348,24 +331,24 @@ namespace Menu
 
             if (GoUp)
             {
-                PlayerSpeedY -= Speed;
+                player.PlayerSpeedY -= player.Speed;
             }
             if (GoDown)
             {
-                PlayerSpeedY += Speed;
+                player.PlayerSpeedY += player.Speed;
             }
             if (GoRight)
             {
-                PlayerSpeedX += Speed;
+                player.PlayerSpeedX += player.Speed;
             }
             if (GoLeft)
             {
-                PlayerSpeedX -= Speed;
+                player.PlayerSpeedX -= player.Speed;
             }
 
-            PlayerSpeedX *= friction;
-            PlayerSpeedY *= friction;
-            Player.Margin = new Thickness(Player.Margin.Left + PlayerSpeedX, Player.Margin.Top + PlayerSpeedY, 0, 0);
+            player.PlayerSpeedX *= player.friction;
+            player.PlayerSpeedY *= player.friction;
+            player.PlayerModel.Margin = new Thickness(player.PlayerModel.Margin.Left + player.PlayerSpeedX, player.PlayerModel.Margin.Top + player.PlayerSpeedY, 0, 0);
             Collision("x");
             Collision("y");
         }
@@ -382,24 +365,23 @@ namespace Menu
             {
                 Grid1.Children.Remove(y);
             }
-            Rect PlayerHitBox = new Rect(Player.Margin.Left, Player.Margin.Top, Player.ActualWidth, Player.ActualHeight);
 
             foreach (var x in Grid1.Children.OfType<Rectangle>())
             {
                 if (x is Rectangle && (string)x.Tag == "Border")
                 {
                     Rect BoxHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
-                    if (BoxHitBox.IntersectsWith(PlayerHitBox))
+                    if (BoxHitBox.IntersectsWith(player.PlayerHitBox))
                     {
                         if (Dir == "x")
                         {
-                            Player.Margin = new Thickness(Player.Margin.Left - PlayerSpeedX, Player.Margin.Top, 0, 0);
-                            PlayerSpeedX = 0;
+                            player.PlayerModel.Margin = new Thickness(player.PlayerModel.Margin.Left - player.PlayerSpeedX, player.PlayerModel.Margin.Top, 0, 0);
+                            player.PlayerSpeedX = 0;
                         }
                         else
                         {
-                            Player.Margin = new Thickness(Player.Margin.Left, Player.Margin.Top - PlayerSpeedY, 0, 0);
-                            PlayerSpeedY = 0;
+                            player.PlayerModel.Margin = new Thickness(player.PlayerModel.Margin.Left, player.PlayerModel.Margin.Top - player.PlayerSpeedY, 0, 0);
+                            player.PlayerSpeedY = 0;
                         }
 
 
@@ -412,7 +394,7 @@ namespace Menu
                 if (x is Image && (string)x.Tag == "Collectables")
                 {
                     Rect CollectHitBox = new Rect(x.Margin.Left, x.Margin.Top, x.ActualWidth, x.ActualHeight);
-                    if (PlayerHitBox.IntersectsWith(CollectHitBox))
+                    if (player.PlayerHitBox.IntersectsWith(CollectHitBox))
                     {
                         if ((string)x.Name == "coin")
                         {
@@ -421,47 +403,11 @@ namespace Menu
                         }
                         if ((string)x.Name == "SpeedUp")
                         {
-                            Speed += 1;
+                            player.Speed += 2;
                             ImageToDel.Add(x);
                         }
                     }
                 }
-            }
-            double cordx = 0;
-            double cordy = 0;
-
-
-            //if (EnemyCount == 1)
-              //  foreach (var x in Grid1.Children.OfType<Rectangle>())
-               // {
-                //    if ((string)x.Tag == "Enemy" && x is Rectangle)
-                  //  {
-                    //    cordx = x.Margin.Left;
-                      //  cordy = x.Margin.Top;
-                   // }
-               // }
-            //if (EnemyCount == 0)
-            //{
-            //
-              //  Image CoinS = new Image
-                //{                  
-                 //   Name = "coin",
-                   // Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/coin.png", UriKind.Absolute)),
-                    //Height = 30,
-                   // Width = 30,
-                    //Stretch = Stretch.Fill,
-                    //Tag = "Collectables",
-                    //Margin = new Thickness(cordx +70, cordy + 70, 0, 0),
-                    //VerticalAlignment = VerticalAlignment.Top,
-                    //HorizontalAlignment = HorizontalAlignment.Left,
-                //};
-                //Grid1.Children.Add(CoinS);
-                //EnemyCount = CountOfEnemy.Next(1,3);
-                //Spawner.Enemy_Spawn("zombie");
-            //}
-            if (HP <= 0)
-            {
-                RectToDel.Add(Player);
             }
         }
         private void KeyIsDown(object sender, KeyEventArgs e)
@@ -515,22 +461,22 @@ namespace Menu
         }
         private void KeyIsUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.W && Stop != "Up")
+            if (e.Key == Key.W)
             {
                 LastView = "";
                 GoUp = false;
             }
-            if (e.Key == Key.S && Stop != "Down")
+            if (e.Key == Key.S)
             {
                 LastView = "";
                 GoDown = false;
             }
-            if (e.Key == Key.D && Stop != "Right")
+            if (e.Key == Key.D)
             {
                 LastView = "";
                 GoRight = false;
             }
-            if (e.Key == Key.A && Stop != "Left")
+            if (e.Key == Key.A)
             {
                 LastView = "";
                 GoLeft = false;

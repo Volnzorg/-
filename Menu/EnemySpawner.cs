@@ -17,13 +17,13 @@ namespace Menu
         public int enemySpawn, enemyCount;
         string EnemyType;
         Grid grid;
-        Rectangle Player;
+        Player player;
         Window1 window;
 
-        public EnemySpawner(Grid grid, Rectangle Player, Window1 window)
+        public EnemySpawner(Grid grid, Player player, Window1 window)
         {
             this.grid = grid;
-            this.Player = Player;
+            this.player = player;
             this.window = window;
 
             DispatcherTimer enemyExist = new DispatcherTimer();
@@ -44,7 +44,7 @@ namespace Menu
                 x = ranX.Next(300, 500);
                 y = ranY.Next(300, 500);
                 Rect EnemyAgro = new Rect(x - 50, y - 50, 100, 100);
-                Enemy zomb = new Enemy(Player, grid, EnemyAgro, x, y, window);
+                Enemy zomb = new Enemy(player, grid, EnemyAgro, x, y, window);
                 grid.Children.Add(zomb.EnemyModel);
                 window.Enemies(zomb);
             }

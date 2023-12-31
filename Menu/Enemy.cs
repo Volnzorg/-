@@ -20,8 +20,8 @@ namespace Menu
         int ZombieSpeed = 5, x, y;
         public bool Killed = false;
         public int EnemyHP = 3, Damage, TakenDamage;
-        Rect EnemyAgr, EnemyPosition, EnemyHitBox;
-        Rectangle Player;
+        public Rect EnemyAgr, EnemyPosition, EnemyHitBox;
+        Player player;
         Grid grid;
         string MoveS;
         Rect EnemyAgro;
@@ -65,9 +65,9 @@ namespace Menu
             HorizontalAlignment = HorizontalAlignment.Left,
         };
 
-        public Enemy(Rectangle Player, Grid grid, Rect EnemyAgro, int x, int y, Window1 window)
+        public Enemy(Player player, Grid grid, Rect EnemyAgro, int x, int y, Window1 window)
         {
-            this.Player = Player;
+            this.player = player;
             this.grid = grid;
             this.EnemyAgro = EnemyAgro;
             this.window = window;
@@ -105,13 +105,19 @@ namespace Menu
 
         public void Damege(Rect BulletHitBox, int PlayerDamage, Rectangle Bullet)
         {
+            bool isIntersect = false;
             EnemyHitBox = new Rect(EnemyModel.Margin.Left, EnemyModel.Margin.Top, EnemyModel.ActualWidth, EnemyModel.ActualHeight);
 
             if (EnemyHitBox.IntersectsWith(BulletHitBox))
             {
-                EnemyHP -= PlayerDamage;
+                isIntersect = true;
                 RectToDel.Add(Bullet);
                 check.Text += "1";
+            }
+            if (isIntersect)
+            {
+                EnemyHP -= PlayerDamage;
+                isIntersect = false;
             }
         }
 
@@ -144,26 +150,25 @@ namespace Menu
 
         public void CollusionCheck(object sender, EventArgs e)
         {
-            Rect PlayerHitBox = new Rect(Player.Margin.Left, Player.Margin.Top, Player.ActualWidth, Player.ActualHeight);
             Rect EnemyAgr = new Rect(EnemyModel.Margin.Left - 50, EnemyModel.Margin.Top - 50, 200, 200);
             EnemyHitBox = new Rect(EnemyModel.Margin.Left, EnemyModel.Margin.Top, EnemyModel.ActualWidth, EnemyModel.ActualHeight);
             enemyHPBar.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - enemyHPBar.ActualHeight, 0, 0);
             enemyHPBar.Text = EnemyHP.ToString();
-            if (EnemyAgr.IntersectsWith(PlayerHitBox))
+            if (EnemyAgr.IntersectsWith(player.PlayerHitBox))
             {
-                if (EnemyModel.Margin.Left < Player.Margin.Left)
+                if (EnemyModel.Margin.Left < player.PlayerModel.Margin.Left)
                 {
                     EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
                 }
-                if (EnemyModel.Margin.Left > Player.Margin.Left)
+                if (EnemyModel.Margin.Left > player.PlayerModel.Margin.Left)
                 {
                     EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
                 }
-                if (EnemyModel.Margin.Top < Player.Margin.Top)
+                if (EnemyModel.Margin.Top < player.PlayerModel.Margin.Top)
                 {
                     EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
                 }
-                if (EnemyModel.Margin.Top > Player.Margin.Top)
+                if (EnemyModel.Margin.Top > player.PlayerModel.Margin.Top)
                 {
                     EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
                 }

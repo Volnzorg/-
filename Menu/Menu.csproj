@@ -55,9 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cave.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemySpawner.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -108,10 +111,10 @@
     <Folder Include="Images\Player\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Coin.png" />
+    <Resource Include="Images\Trava.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Trava.png" />
+    <Resource Include="Images\Coin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
