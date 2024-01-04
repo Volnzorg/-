@@ -19,13 +19,12 @@ namespace Menu
     {
         int ZombieSpeed = 5, x, y;
         public bool Killed = false;
-        public int EnemyHP = 3, Damage, TakenDamage;
+        public int EnemyHP = 3, Damage, TakenDamage; // Добавить урон для противников и урон ими получаемый;
         public Rect EnemyAgr, EnemyPosition, EnemyHitBox;
         Player player;
         Grid grid;
         string MoveS;
         Rect EnemyAgro;
-        Window1 window;
         List<Rectangle> RectToDel = new List<Rectangle>();
 
         TextBox enemyHPBar = new TextBox
@@ -65,12 +64,14 @@ namespace Menu
             HorizontalAlignment = HorizontalAlignment.Left,
         };
 
-        public Enemy(Player player, Grid grid, Rect EnemyAgro, int x, int y, Window1 window)
+        Room room;
+
+        public Enemy(Player player, Grid grid, Rect EnemyAgro, int x, int y, Room room)
         {
+            this.room = room;
             this.player = player;
             this.grid = grid;
             this.EnemyAgro = EnemyAgro;
-            this.window = window;
             this.y = y; this.x = x;
             
             EnemyModel.Margin = new Thickness(x, y, 0, 0);
@@ -84,7 +85,7 @@ namespace Menu
             Collision.Start();
             DispatcherTimer EnemyMovement = new DispatcherTimer();
             EnemyMovement.Tick += Enemy_Move;
-            EnemyMovement.Interval = TimeSpan.FromMilliseconds(500);
+            EnemyMovement.Interval = TimeSpan.FromSeconds(2);
             EnemyMovement.Start();
             //grid.Children.Add(check);
             grid.Children.Add(enemyHPBar);
@@ -105,19 +106,22 @@ namespace Menu
 
         public void Damege(Rect BulletHitBox, int PlayerDamage, Rectangle Bullet)
         {
-            bool isIntersect = false;
-            EnemyHitBox = new Rect(EnemyModel.Margin.Left, EnemyModel.Margin.Top, EnemyModel.ActualWidth, EnemyModel.ActualHeight);
+            if (EnemyModel != null) // Мб переделать
+            {
+                bool isIntersect = false;
+                EnemyHitBox = new Rect(EnemyModel.Margin.Left, EnemyModel.Margin.Top, EnemyModel.ActualWidth, EnemyModel.ActualHeight);
 
-            if (EnemyHitBox.IntersectsWith(BulletHitBox))
-            {
-                isIntersect = true;
-                RectToDel.Add(Bullet);
-                check.Text += "1";
-            }
-            if (isIntersect)
-            {
-                EnemyHP -= PlayerDamage;
-                isIntersect = false;
+                if (EnemyHitBox.IntersectsWith(BulletHitBox))
+                {
+                    isIntersect = true;
+                    RectToDel.Add(Bullet);
+                    check.Text += "1";
+                }
+                if (isIntersect)
+                {
+                    EnemyHP -= PlayerDamage;
+                    isIntersect = false;
+                }
             }
         }
 
@@ -130,112 +134,124 @@ namespace Menu
 
             if (EnemyHP <= 0 && Killed == false)
             {
-                Image Coin = new Image
+                if (EnemyModel != null)
                 {
-                    Name = "coin",
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/coin.png", UriKind.Absolute)),
+                    Image Coin = new Image
+                    {
+                        Name = "coin",
+                        Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/coin.png", UriKind.Absolute)),
 
-                    Height = 30,
-                    Width = 30,
-                    Stretch = Stretch.Fill,
-                    Tag = "Collectables",
-                    Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top, 0, 0),
-                    VerticalAlignment = VerticalAlignment.Top,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                };
-                grid.Children.Add(Coin);
-                Killed = true;
+                        Height = 30,
+                        Width = 30,
+                        Stretch = Stretch.Fill,
+                        Tag = "Collectables",
+                        Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top, 0, 0),
+                        VerticalAlignment = VerticalAlignment.Top,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                    };
+                    grid.Children.Add(Coin);
+                    Killed = true;
+                }
             }
         }
 
         public void CollusionCheck(object sender, EventArgs e)
         {
-            Rect EnemyAgr = new Rect(EnemyModel.Margin.Left - 50, EnemyModel.Margin.Top - 50, 200, 200);
-            EnemyHitBox = new Rect(EnemyModel.Margin.Left, EnemyModel.Margin.Top, EnemyModel.ActualWidth, EnemyModel.ActualHeight);
-            enemyHPBar.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - enemyHPBar.ActualHeight, 0, 0);
-            enemyHPBar.Text = EnemyHP.ToString();
-            if (EnemyAgr.IntersectsWith(player.PlayerHitBox))
+            if (EnemyModel != null)
             {
-                if (EnemyModel.Margin.Left < player.PlayerModel.Margin.Left)
+                Rect EnemyAgr = room.RoomHitBox;
+                EnemyHitBox = new Rect(EnemyModel.Margin.Left, EnemyModel.Margin.Top, EnemyModel.ActualWidth, EnemyModel.ActualHeight);
+                enemyHPBar.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - enemyHPBar.ActualHeight, 0, 0);
+                enemyHPBar.Text = EnemyHP.ToString();
+
+
+                if (EnemyAgr.IntersectsWith(player.PlayerHitBox))
                 {
-                    EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
-                }
-                if (EnemyModel.Margin.Left > player.PlayerModel.Margin.Left)
-                {
-                    EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
-                }
-                if (EnemyModel.Margin.Top < player.PlayerModel.Margin.Top)
-                {
-                    EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
-                }
-                if (EnemyModel.Margin.Top > player.PlayerModel.Margin.Top)
-                {
-                    EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
-                }
-            }
-            else
-            {
-                if (EnemyHitBox.IntersectsWith(EnemyAgro))
-                {
-                    if (MoveS == "Up")
+                    if (EnemyModel.Margin.Left < player.PlayerModel.Margin.Left)
                     {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
+                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
                     }
-                    if (MoveS == "RightUp")
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
-                    }
-                    if (MoveS == "LeftUp")
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
-                    }
-                    if (MoveS == "LeftDown")
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
-                    }
-                    if (MoveS == "RightDown")
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
-                    }
-                    if (MoveS == "Down")
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
-                    }
-                    if (MoveS == "Left")
+                    if (EnemyModel.Margin.Left > player.PlayerModel.Margin.Left)
                     {
                         EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
                     }
-                    if (MoveS == "Right")
+                    if (EnemyModel.Margin.Top < player.PlayerModel.Margin.Top)
                     {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
+                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
+                    }
+                    if (EnemyModel.Margin.Top > player.PlayerModel.Margin.Top)
+                    {
+                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
                     }
                 }
                 else
                 {
-                    if (EnemyModel.Margin.Top < EnemyAgro.Top)
+                    if (EnemyHitBox.IntersectsWith(EnemyAgro))
                     {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
+                        if (MoveS == "Up")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
+                        }
+                        if (MoveS == "RightUp")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
+                        }
+                        if (MoveS == "LeftUp")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
+                        }
+                        if (MoveS == "LeftDown")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
+                        }
+                        if (MoveS == "RightDown")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
+                        }
+                        if (MoveS == "Down")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
+                        }
+                        if (MoveS == "Left")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
+                        }
+                        if (MoveS == "Right")
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
+                        }
                     }
-                    if (EnemyModel.Margin.Top > EnemyAgro.Top)
+                    else
                     {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
+                        if (EnemyModel.Margin.Top < EnemyAgro.Top)
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top + ZombieSpeed, 0, 0);
+                        }
+                        if (EnemyModel.Margin.Top > EnemyAgro.Top)
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left, EnemyModel.Margin.Top - ZombieSpeed, 0, 0);
+                        }
+                        if (EnemyModel.Margin.Left < EnemyAgro.Left)
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
+                        }
+                        if (EnemyModel.Margin.Left > EnemyAgro.Left)
+                        {
+                            EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
+                        }
                     }
-                    if (EnemyModel.Margin.Left < EnemyAgro.Left)
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left + ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
-                    }
-                    if (EnemyModel.Margin.Left > EnemyAgro.Left)
-                    {
-                        EnemyModel.Margin = new Thickness(EnemyModel.Margin.Left - ZombieSpeed, EnemyModel.Margin.Top, 0, 0);
-                    }
-                }
 
+                }
             }
+
+            
         }
         public void Delete()
         {
             grid.Children.Remove(EnemyModel);
             grid.Children.Remove(enemyHPBar);
+            EnemyModel = null;
+            EnemyHitBox = new Rect(0, 0, 0, 0);
             EnemyAgr = new Rect(0, 0, 0, 0);
             EnemyAgro = new Rect(0, 0, 0, 0);
             

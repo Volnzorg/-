@@ -15,9 +15,9 @@ using System.Windows.Media.Imaging;
 
 namespace Menu
 {
-    internal class Engine
+    public class Engine
     {
-        bool GoUp, GoDown, GoLeft, GoRight;
+        public bool GoUp, GoDown, GoLeft, GoRight;
         string Direct;
         public int HP = 100, BulletSpeed = 10, Score = 0;
         public Player player; 
@@ -26,62 +26,6 @@ namespace Menu
         public List<Enemy> EnemyDel = new List<Enemy>();
         List<Image> ImageToDel = new List<Image>();
         List<Rectangle> RectToDel = new List<Rectangle>();
-
-        Grid grid;
-
-        Window GameScreen;
-        public Engine(Window window, Player player, Grid grid)
-        {
-            this.GameScreen = window;
-            this.player = player;
-            this.grid = grid;
-
-            window.KeyDown += KeyIsDown;
-            window.KeyUp += KeyIsUp;
-            DispatcherTimer damageCheck = new DispatcherTimer();
-            DispatcherTimer PlayerMovement = new DispatcherTimer();
-            DispatcherTimer BulletMovement = new DispatcherTimer();
-            DispatcherTimer BorderCreator = new DispatcherTimer();
-            BorderCreator.Tick += Screen_Borders;
-            BorderCreator.Interval = TimeSpan.FromMilliseconds(200);
-            BorderCreator.Start();
-            damageCheck.Tick += Damage_Check;
-            damageCheck.Interval = TimeSpan.FromSeconds(1);
-            damageCheck.Start();
-            BulletMovement.Tick += Bullet_Movement;
-            BulletMovement.Interval = TimeSpan.FromMilliseconds(10);
-            BulletMovement.Start();
-            PlayerMovement.Tick += Player_Movement;
-            PlayerMovement.Interval = TimeSpan.FromMilliseconds(20);
-            PlayerMovement.Start();
-            grid.Children.Add(box); grid.Children.Add(box2); grid.Children.Add(box3); grid.Children.Add(box4);
-        }
-
-        public Engine(Window window, Grid grid)
-        {
-            this.GameScreen = window;
-            player = new Player();
-            window.KeyDown += KeyIsDown;
-            window.KeyUp += KeyIsUp;
-            DispatcherTimer damageCheck = new DispatcherTimer();
-            DispatcherTimer PlayerMovement = new DispatcherTimer();
-            DispatcherTimer BulletMovement = new DispatcherTimer();
-            DispatcherTimer BorderCreator = new DispatcherTimer();
-            BorderCreator.Tick += Screen_Borders;
-            BorderCreator.Interval = TimeSpan.FromMilliseconds(200);
-            BorderCreator.Start();
-            damageCheck.Tick += Damage_Check;
-            damageCheck.Interval = TimeSpan.FromSeconds(1);
-            damageCheck.Start();
-            BulletMovement.Tick += Bullet_Movement;
-
-            BulletMovement.Interval = TimeSpan.FromMilliseconds(10);
-            BulletMovement.Start();
-            PlayerMovement.Tick += Player_Movement;
-            PlayerMovement.Interval = TimeSpan.FromMilliseconds(20);
-            PlayerMovement.Start();
-            grid.Children.Add(box); grid.Children.Add(box2); grid.Children.Add(box3); grid.Children.Add(box4);
-        }
 
         Image Coin = new Image
         {
@@ -110,53 +54,82 @@ namespace Menu
             HorizontalAlignment = HorizontalAlignment.Left,
         };
 
-        Rectangle box = new Rectangle // Граница Л-Г
+
+        Grid grid;
+        Caves cave;
+
+        Window GameScreen;
+        public Engine(Player player, Grid grid, Caves cave)
         {
-            Name = "BorderL",
-            Height = 0,
-            Width = 1,
-            Fill = Brushes.DarkRed,
+            this.cave = cave;
+            this.GameScreen = cave.GameScreen;
+            this.player = player;
+            this.grid = grid;
 
-            Margin = new Thickness(0, 0, 0, 0),
-            Tag = "Border",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-        Rectangle box2 = new Rectangle // Граница Н-В
+            GameScreen.KeyDown += KeyIsDown;
+            GameScreen.KeyUp += KeyIsUp;
+            DispatcherTimer damageCheck = new DispatcherTimer();
+            DispatcherTimer PlayerMovement = new DispatcherTimer();
+            DispatcherTimer BulletMovement = new DispatcherTimer();
+            damageCheck.Tick += Damage_Check;
+            damageCheck.Interval = TimeSpan.FromSeconds(1);
+            damageCheck.Start();
+            BulletMovement.Tick += Bullet_Movement;
+            BulletMovement.Interval = TimeSpan.FromMilliseconds(10);
+            BulletMovement.Start();
+            PlayerMovement.Tick += Player_Movement;
+            PlayerMovement.Interval = TimeSpan.FromMilliseconds(20);
+            PlayerMovement.Start();
+        }
+
+        public Engine(Window window, Grid grid)
         {
-            Height = 1,
-            Width = 0,
-            Fill = Brushes.DarkRed,
+            this.grid = grid;
+            this.GameScreen = window;
+            player = new Player();
+            GameScreen.KeyDown += KeyIsDown;
+            GameScreen.KeyUp += KeyIsUp;
+            DispatcherTimer damageCheck = new DispatcherTimer();
+            DispatcherTimer PlayerMovement = new DispatcherTimer();
+            DispatcherTimer BulletMovement = new DispatcherTimer();
+            damageCheck.Tick += Damage_Check;
+            damageCheck.Interval = TimeSpan.FromSeconds(1);
+            damageCheck.Start();
+            BulletMovement.Tick += Bullet_Movement;
 
-            Margin = new Thickness(0, 0, 0, 0),
-            Tag = "Border",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-        Rectangle box3 = new Rectangle // Граница В-В
+            BulletMovement.Interval = TimeSpan.FromMilliseconds(10);
+            BulletMovement.Start();
+            PlayerMovement.Tick += Player_Movement;
+            PlayerMovement.Interval = TimeSpan.FromMilliseconds(20);
+            PlayerMovement.Start();
+        }
+
+        public Engine(Window1 window, Grid grid, Player player)
         {
-            Name = "BorederUp",
-            Height = 1,
-            Width = 0,
-            Fill = Brushes.DarkRed,
+            this.player = player;
+            this.grid = grid;
+            this.GameScreen = window.Windows;
+            GameScreen.KeyDown += KeyIsDown;
+            GameScreen.KeyUp += KeyIsUp;
+            DispatcherTimer damageCheck = new DispatcherTimer();
+            DispatcherTimer PlayerMovement = new DispatcherTimer();
+            DispatcherTimer BulletMovement = new DispatcherTimer();
+            damageCheck.Tick += Damage_Check;
+            damageCheck.Interval = TimeSpan.FromSeconds(1);
+            damageCheck.Start();
+            BulletMovement.Tick += Bullet_Movement;
 
-            Margin = new Thickness(0, 0, 0, 0),
-            Tag = "Border",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-        Rectangle box4 = new Rectangle // Граница П-Г
+            BulletMovement.Interval = TimeSpan.FromMilliseconds(10);
+            BulletMovement.Start();
+            PlayerMovement.Tick += Player_Movement;
+            PlayerMovement.Interval = TimeSpan.FromMilliseconds(20);
+            PlayerMovement.Start();
+        }
+
+        public void Grid_Update(Grid Gridik)
         {
-            Height = 0,
-            Width = 1,
-            Fill = Brushes.DarkRed,
-
-            Margin = new Thickness(0, 0, 0, 0),
-            Tag = "Border",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
-
+            grid = Gridik;
+        }
 
         private void Damage_Check(object sender, EventArgs e)
         {
@@ -164,29 +137,17 @@ namespace Menu
             {
                 player.DamageCheck(x.EnemyHitBox);
             }
-        }
-
-        private void Screen_Borders(object sender, EventArgs e)
-        {
-
-            foreach (var x in grid.Children.OfType<Rectangle>())
+            if (player.PlayerHP <= 0)
             {
-                if (x is Rectangle && (string)x.Tag == "Border")
-                {
-                    if ((x.Name == "BorderL" && x.ActualHeight != GameScreen.ActualHeight) || (x.Name == "BorderUp" && x.ActualWidth != GameScreen.ActualWidth))
-                    {
-                        box4.Height = GameScreen.ActualHeight; box4.Margin = new Thickness(GameScreen.ActualWidth - 20, 0, 0, 0);
-                        box3.Width = GameScreen.ActualWidth - 30;
-                        box2.Width = GameScreen.ActualWidth - 30; box2.Margin = new Thickness(0, GameScreen.ActualHeight - 30, 0, 0);
-                        box.Height = GameScreen.ActualHeight - 30;
-                    }
-                }
+                grid.Children.Remove(player.PlayerModel);
+                player.PlayerModel = null;
             }
-
         }
 
-        public void Element_Spawn()
+
+        public void Element_Spawn(Grid Gridik)
         {
+            grid = Gridik;
             Random ranx = new Random();
             Random rany = new Random();
             Coin.Margin = new Thickness(ranx.Next(200, 500), rany.Next(200, 500), 0, 0);
@@ -323,10 +284,11 @@ namespace Menu
             player.PlayerSpeedX *= player.friction;
             player.PlayerSpeedY *= player.friction;
             player.PlayerModel.Margin = new Thickness(player.PlayerModel.Margin.Left + player.PlayerSpeedX, player.PlayerModel.Margin.Top + player.PlayerSpeedY, 0, 0);
+            //grid.Margin = new Thickness(grid.Margin.Left - player.PlayerSpeedX, grid.Margin.Top - player.PlayerSpeedY, 0, 0); Сделать только в главной комнате
             Collision("x");
             Collision("y");
         }
-
+    
 
         private void Collision(string Dir)
         {
@@ -358,7 +320,6 @@ namespace Menu
                             player.PlayerSpeedY = 0;
                         }
 
-
                     }
                 }
 
@@ -378,7 +339,16 @@ namespace Menu
                         if ((string)x.Name == "SpeedUp")
                         {
                             player.Speed += 2;
+                            player.PlayerCurrentSpeed += 2;
                             ImageToDel.Add(x);
+                        }
+                        if (x.Name == "Key")
+                        {
+                            player.Level += 1;
+                            ImageToDel.Add(x);
+                            Window1 window1 = new Window1(player);
+                            cave.Close();
+                            window1.ShowDialog();
                         }
                     }
                 }

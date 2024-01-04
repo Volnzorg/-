@@ -12,18 +12,15 @@ namespace Menu
 {
     public class Player
     {
+        public int PlayerMaxHP = 100; // Для бафов на хп и прверки того, что хп не регенится больше, чем возможно(100 по стандарту)
         public int PlayerHP = 100, PlayerHeight = 70, PlayerWidth = 40;
+        public int Level = 0; //Число пройденных пещер
+        public int PlayerCurrentSpeed = 2; // Переменная запоминающая скорость персонажа
         public double Speed = 2, PlayerSpeedX, PlayerSpeedY, friction = 0.77;
+        public double DamageReduction; // Броня
+      //public weapon - добавить оружие
         public Rect PlayerHitBox;
-        public Rectangle PlayerModel = new Rectangle
-        {
-            Height = 70,
-            Width = 40,
-            Fill = Brushes.AntiqueWhite,
-            Tag = "player",
-            VerticalAlignment = VerticalAlignment.Top,
-            HorizontalAlignment = HorizontalAlignment.Left,
-        };
+        public Rectangle PlayerModel;
 
         public Player()
         {
@@ -47,6 +44,24 @@ namespace Menu
             PlayerModel.Width = PlayerWidth;
             PlayerModel.Height = PlayerHeight;
             PlayerHitBox = new Rect(PlayerModel.Margin.Left, PlayerModel.Margin.Top, PlayerWidth, PlayerHeight);
+        }
+
+        public void PlayerModelCreator()
+        {
+            PlayerModel = new Rectangle
+            {
+                Height = PlayerHeight,
+                Width = PlayerWidth,
+                Fill = Brushes.AntiqueWhite,
+                Tag = "player",
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left,
+            };
+        }
+
+        public void PlayerSpeedCorrection()
+        {
+            Speed = PlayerCurrentSpeed;
         }
     }
 }
