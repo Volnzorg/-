@@ -5,4 +5,4 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Menu"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800" WindowState="Maximized" KeyDown="KeyIsDown" KeyUp="KeyIsUp"/>
+        Title="Window1" Height="450" Width="800" WindowState="Maximized"/>
