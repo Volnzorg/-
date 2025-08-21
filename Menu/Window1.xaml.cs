@@ -109,6 +109,7 @@ namespace Menu
             HorizontalAlignment = HorizontalAlignment.Left,
         };
 
+<<<<<<< Updated upstream
         Image SpeedUpCoin = new Image
         {
             Name = "SpeedUp",
@@ -151,10 +152,133 @@ namespace Menu
             EnemyCount = CountOfEnemy.Next(1, 3);
             Enemy_Spawn(EnemyCount);
             Element_Spawn();
+=======
+        static double Scaling = App.Current.Windows[0].ActualHeight / 1080;
+
+        Image WeaponCheck = new Image
+        {
+            Tag = "Collectables",
+            Name = "Pistol",
+            Width = 50,
+            Height = 30,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(500, 500, 0, 0),
+            Stretch = Stretch.Fill,
+            Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Weapon/Pistol/Pistol.png", UriKind.Absolute)),
+        };
+
+        static BitmapImage OpenCaveLeft = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Area/OpenCaveLeft.png", UriKind.Absolute));
+        static BitmapImage OpenCaveRight = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Area/OpenCaveRight.png", UriKind.Absolute));
+        static BitmapImage CloseCaveLeft = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Area/CloseCaveLeft.png", UriKind.Absolute));
+        static BitmapImage CloseCaveRight = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Area/CloseCaveRight.png", UriKind.Absolute));
+
+        NPC Trader;
+
+        
+
+        //EnemySpawner Spawner;
+        Engine engine;
+        Player player;
+
+        public Window1()
+        {
+            InitializeComponent();
+            Grid1.Width *= Scaling;
+            Grid1.Height *= Scaling;
+
+            engine = new Engine(Windows, Grid1);
+
+
+            DispatcherTimer EnemiesChecked = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(20)
+            };
+            EnemiesChecked.Tick += EnemiesKilled;
+            EnemiesChecked.Start();
+           
+            DispatcherTimer GridUpdate = new DispatcherTimer();
+            GridUpdate.Tick += Grid_Updater;
+            GridUpdate.Interval = TimeSpan.FromMilliseconds(20);
+            GridUpdate.Start();
+
+            player = engine.player;
+            engine.Element_Spawn(Grid1);
+            
+            //Spawner = new EnemySpawner(player, Windows);
+            //Spawner.Enemy_Spawn("zomnie", Grid1);
+            //Grid1.Children.Add(check);
+            
+            player.PlayerModelCreator();          
+            player.PlayerModel.Margin = new Thickness((Windows.Width / 2) - (player.PlayerModel.Width / 2), (Windows.Height / 2) - (player.PlayerModel.Height / 2), 0, 0);
+
+            Grid1.Children.Add(player.PlayerModel);
+
+            WeaponCheck.Margin = new Thickness(Cave1.Margin.Left + Cave1.Width / 2, Cave1.Margin.Top + Cave1.Height + player.PlayerWidth, 0, 0);
+            
+            Grid1.Children.Add(WeaponCheck);
+
+            Trader = engine.Trader;
+            Grid1.Children.Add(Trader.NPC_Trader);
+   
+            Cave3.Margin = new Thickness(Cave3.Margin.Left + 15 * Scaling, Cave3.Margin.Top + 13 * Scaling, 0, 0);
+            Cave4.Margin = new Thickness(Cave4.Margin.Left + 25 * Scaling, Cave4.Margin.Top + 10 * Scaling, 0, 0);
+        }
+
+        public Window1(Player player)
+        {
+            InitializeComponent();
+            this.player = player;
+            Windows.Content = Grid1;
+            Trader = new NPC(player);
+            engine = new Engine(this, Grid1, player, Trader);
+
+            DispatcherTimer EnemiesChecked = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(20)
+            };
+            EnemiesChecked.Tick += EnemiesKilled;
+            EnemiesChecked.Start();
+            
+            DispatcherTimer GridUpdate = new DispatcherTimer();
+            GridUpdate.Tick += Grid_Updater;
+            GridUpdate.Interval = TimeSpan.FromMilliseconds(20);
+            GridUpdate.Start();
+
+            engine.Element_Spawn(Grid1);
+
+            //Spawner = new EnemySpawner(player, Windows);
+            // Spawner.Enemy_Spawn("zomnie", Grid1);
+            //Grid1.Children.Add(check);
+
+            player.PlayerModelCreator();
+
+            switch (player.Level)
+            {
+                case 1:
+                    player.PlayerModel.Margin = new Thickness(Cave1.Margin.Left + Cave1.Width / 2, Cave1.Margin.Top + Cave1.Height, 0, 0);
+                    break;
+                case 2:
+                    player.PlayerModel.Margin = new Thickness(Cave2.Margin.Left + Cave2.Width / 2, Cave2.Margin.Top + Cave2.Height, 0, 0);
+                    break;
+                case 3:
+                    player.PlayerModel.Margin = new Thickness(Cave3.Margin.Left + Cave3.Width / 2, Cave3.Margin.Top + Cave3.Height, 0, 0);
+                    break;
+                case 4:
+                    player.PlayerModel.Margin = new Thickness(Cave4.Margin.Left + Cave4.Width / 2, Cave4.Margin.Top + Cave4.Height, 0, 0);
+                    break;
+
+            }
+
+            Grid1.Children.Add(player.PlayerModel);
+
+            Grid1.Children.Add(Trader.NPC_Trader);
+>>>>>>> Stashed changes
         }
 
         private void Damage_Check(object sender, EventArgs e)
         {
+<<<<<<< Updated upstream
             Rect PlayerHitBox = new Rect(Player.Margin.Left, Player.Margin.Top, Player.ActualWidth, Player.ActualHeight);
             foreach (var x in Grid1.Children.OfType<Rectangle>())
             {
@@ -164,19 +288,120 @@ namespace Menu
                     if (EnemyHitBox.IntersectsWith(PlayerHitBox))
                     {
                         HP -= 20;
+=======
+            engine.Grid_Update(Grid1);
+            foreach (var x in Grid1.Children.OfType<Image>())
+            {
+                if (x is Image && (string)x.Tag == "CaveDoor1" && player.Level == 0)
+                {
+                    Cave1.Source = OpenCaveLeft;
+                    Rect CaveDoorHitBox = new Rect(x.Margin.Left - player.PlayerModel.Width / 4, x.Margin.Top, x.ActualWidth - player.PlayerModel.Width / 2, x.ActualHeight - player.PlayerModel.Height / 2);
+                    if (CaveDoorHitBox.IntersectsWith(player.PlayerHitBox))
+                    {
+                        engine.GoUp = false; engine.GoDown = false; engine.GoRight = false; engine.GoLeft = false;
+                        Caves cave = new Caves(player);
+                        Windows.Close();
+                        Windows = null;
+                        cave.ShowDialog(); 
+                        //cave.Show();
                     }
+                }
+                if (x is Image && (string)x.Tag == "CaveDoor2" && player.Level == 1)
+                {
+                    Cave2.Source = OpenCaveLeft;
+                    Rect CaveDoorHitBox = new Rect(x.Margin.Left - player.PlayerModel.Width / 4, x.Margin.Top, x.ActualWidth - player.PlayerModel.Width / 2, x.ActualHeight - player.PlayerModel.Height / 2);
+                    if (CaveDoorHitBox.IntersectsWith(player.PlayerHitBox))
+                    {
+                        engine.GoUp = false; engine.GoDown = false; engine.GoRight = false; engine.GoLeft = false;
+                        Caves cave = new Caves(player);
+                        Windows.Close();
+                        cave.ShowDialog();
+                        //cave.Show();
+                    }
+                }
+                if (x is Image && (string)x.Tag == "CaveDoor3" && player.Level == 2)
+                {
+                    Cave3.Source = OpenCaveRight;
+                    Rect CaveDoorHitBox = new Rect(x.Margin.Left - player.PlayerModel.Width / 4, x.Margin.Top, x.ActualWidth - player.PlayerModel.Width / 2, x.ActualHeight - player.PlayerModel.Height / 2);
+                    if (CaveDoorHitBox.IntersectsWith(player.PlayerHitBox))
+                    {
+                        engine.GoUp = false; engine.GoDown = false; engine.GoRight = false; engine.GoLeft = false;
+                        Caves cave = new Caves(player);
+                        Windows.Close();
+                        cave.ShowDialog();
+                        //cave.Show();
+                    }
+                }
+                if (x is Image && (string)x.Tag == "CaveDoor4" && player.Level == 3)
+                {
+                    Cave4.Source = OpenCaveRight;
+                    Rect CaveDoorHitBox = new Rect(x.Margin.Left - player.PlayerModel.Width / 4, x.Margin.Top, x.ActualWidth - player.PlayerModel.Width / 2, x.ActualHeight - player.PlayerModel.Height / 2);
+                    if (CaveDoorHitBox.IntersectsWith(player.PlayerHitBox))
+                    {
+                        engine.GoUp = false; engine.GoDown = false; engine.GoRight = false; engine.GoLeft = false;
+                        Caves cave = new Caves(player);
+                        Windows.Close();
+                        cave.ShowDialog();
+                        //cave.Show();
+                    }
+                }
+
+                if (x is Image && (string)x.Tag == "BossDoor" && player.Level == 4)
+                {
+                    BossRoom.Visibility = Visibility.Visible;
+                    Rect BossDoorHitBox = new Rect(x.Margin.Left + x.Width / 4, x.Margin.Top, x.ActualWidth / 2, x.ActualHeight / 2);
+                    if (BossDoorHitBox.IntersectsWith(player.PlayerHitBox))
+                    {
+                        engine.GoUp = false; engine.GoDown = false; engine.GoRight = false; engine.GoLeft = false;
+                        BossRoom bossRoom = new BossRoom(player);
+                        Windows.Close();
+                        bossRoom.ShowDialog();
+                        //cave.Show();
+>>>>>>> Stashed changes
+                    }
+                }
+
+                if (Trader.IsShopOpen == true && player.PlayerHitBox.IntersectsWith(Trader.Trader_Intersaction) == false)
+                {
+                    Trader.Close_Menu();
+                    Trader.IsShopOpen = false;
+                }
+                if (Trader.menu == null && Trader.IsShopOpen == true)
+                {
+                    Trader.IsShopOpen = false;
                 }
             }
         }
 
         private void Element_Spawn()
         {
+<<<<<<< Updated upstream
             Random ranx = new Random();
             Random rany = new Random();
             Coin.Margin = new Thickness(ranx.Next(200, 500), rany.Next(200, 500), 0,0);
             SpeedUpCoin.Margin = new Thickness(ranx.Next(200, 500), rany.Next(200, 500), 0, 0);
             Grid1.Children.Add(Coin);
             Grid1.Children.Add(SpeedUpCoin);
+=======
+            foreach (Enemy x in engine.EnemyList)
+            {
+                if (x.Killed == true)
+                {
+                    x.Delete(x);
+                    engine.EnemyDel.Add(x);
+                    //Spawner.enemyCount -= 1;
+                }
+            }
+            foreach (Enemy x in engine.EnemyDel)
+            {
+                engine.EnemyList.Remove(x);
+            }
+            //check.Text = player.PlayerHP.ToString();
+            
+            check.Text = player.CurrentAmmo.ToString();
+            
+            
+>>>>>>> Stashed changes
         }
 
         public void Enemy_Move(object sender, EventArgs e)

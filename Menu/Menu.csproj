@@ -14,6 +14,22 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Alexei\Desktop\Rogue-like\Game\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +49,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>C9529391C0411473C93FAA77432A8E383549F0C5</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Menu_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,10 +83,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+<<<<<<< Updated upstream
     <Compile Include="Class1.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
+=======
+    <Compile Include="Bombs.cs" />
+    <Compile Include="BossRoom.xaml.cs">
+      <DependentUpon>BossRoom.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bullets.cs" />
+    <Compile Include="CaveGenerations.cs" />
+    <Compile Include="Caves.xaml.cs">
+      <DependentUpon>Caves.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Collectables.cs" />
+    <Compile Include="Doors.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="EnemySpawner.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="LastBoss.cs" />
+    <Compile Include="NPC.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="ShopMenu.xaml.cs">
+      <DependentUpon>ShopMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Weapons.cs" />
+    <Compile Include="Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Page Include="BossRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Caves.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+>>>>>>> Stashed changes
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +136,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ShopMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,6 +163,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Menu_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,13 +173,233 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
     <Folder Include="Images\Player\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Coin.png" />
+=======
+    <Resource Include="Images\Trava.png" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Trava.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\Aggressive\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\Aggressive\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\Aggressive\ZombieLookLeft2.png" />
+    <Resource Include="Images\Enemies\Aggressive\ZombieLookRight2.png" />
+    <Resource Include="Images\Enemies\Aggressive\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\Aggressive\ZombieLookRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Rooms\CaveRoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Doors\CaveExit_Ladder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\ZombieStrong\ZombieStrongGoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStrong\ZombieStrongGoRight.png" />
+    <Resource Include="Images\Enemies\ZombieStrong\ZombieStrongLookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStrong\ZombieStrongLookRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\Special\Shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NPC\NPC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Windows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\ZombieRange\GoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieRange\GoRight.png" />
+    <Resource Include="Images\Enemies\ZombieRange\LookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieRange\LookRight.png" />
+    <Resource Include="Images\Enemies\ZombieRange\ShootLeft.png" />
+    <Resource Include="Images\Enemies\ZombieRange\ShootRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\ZombieStandart\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\ZombieLookLeft2.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\ZombieLookRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\ZombieLookRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\Double.png" />
+    <Resource Include="Images\CollectableItem\Healthy.png" />
+    <Resource Include="Images\CollectableItem\Kaktusimka.png" />
+    <Resource Include="Images\CollectableItem\Knockout.png" />
+    <Resource Include="Images\CollectableItem\SpeedRun.png" />
+    <Resource Include="Images\CollectableItem\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Chest\Chest_Closed.png" />
+    <Resource Include="Images\Cave\Chest\Chest_Opened.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\ZombieBlind\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieBlind\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\ZombieBlind\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieBlind\ZombieLookLeft2.png" />
+    <Resource Include="Images\Enemies\ZombieBlind\ZombieLookRight.png" />
+    <Resource Include="Images\Enemies\ZombieBlind\ZombieLookRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\Bomb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\Boss\BossGoLeft.png" />
+    <Resource Include="Images\Enemies\Boss\BossGoRight.png" />
+    <Resource Include="Images\Enemies\Boss\BossLookLeft.png" />
+    <Resource Include="Images\Enemies\Boss\BossLookRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\RoseOfWind.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\Boss\BossProjectileRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Area\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Area\CloseCaveLeft.png" />
+    <Resource Include="Images\Area\CloseCaveRight.png" />
+    <Resource Include="Images\Area\OpenCaveLeft.png" />
+    <Resource Include="Images\Area\OpenCaveRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Doors\OpenedUpDoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Doors\ClosedUpDoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Doors\ClosedLeftDoor.png" />
+    <Resource Include="Images\Cave\Doors\ClosedRightDoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\ZombieStandart\lvl2\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl2\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl2\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl2\ZombieLookRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl3\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl3\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl3\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl3\ZombieLookRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl4\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl4\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl4\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\ZombieStandart\lvl4\ZombieLookRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Player\Skin\котф.png" />
+    <Resource Include="Images\Player\Standart\PlayerModelFront.png" />
+    <Resource Include="Images\Player\Standart\PlayerTakeDamage.png" />
+    <Resource Include="Images\Player\WithBuff\Cat_with_Shield.png" />
+    <Resource Include="Images\Player\WithWeapon\BFG\PlayerLookLeft.png" />
+    <Resource Include="Images\Player\WithWeapon\BFG\PlayerLookRight.png" />
+    <Resource Include="Images\Player\WithWeapon\Rifle\PlayerLookLeft.png" />
+    <Resource Include="Images\Player\WithWeapon\Rifle\PlayerLookRight.png" />
+    <Resource Include="Images\Player\WithWeapon\ShotGun\PlayerLookLeft.png" />
+    <Resource Include="Images\Player\WithWeapon\ShotGun\PlayerLookRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Weapon\BFG\PGbullet.png" />
+    <Resource Include="Images\Weapon\Bomb.png" />
+    <Resource Include="Images\Weapon\Rifle\RFLbullet.png" />
+    <Resource Include="Images\Weapon\Rifle\пуля_вин2.png" />
+    <Resource Include="Images\Weapon\Rifle\пуля_вин3.png" />
+    <Resource Include="Images\Weapon\Rifle\пуля_вин4.png" />
+    <Resource Include="Images\Weapon\ShotGun\SGbullet.png" />
+    <Resource Include="Images\Weapon\ShotGun\SGbullet2.png" />
+    <Resource Include="Images\Weapon\ShotGun\пуля3.png" />
+    <Resource Include="Images\Weapon\ShotGun\пуля4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\ZombieStrong\ZombieStrongLookLeft2.png" />
+    <Resource Include="Images\Enemies\ZombieStrong\ZombieStrongLookRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enemies\BlindRange\ZombieGoLeft.png" />
+    <Resource Include="Images\Enemies\BlindRange\ZombieGoRight.png" />
+    <Resource Include="Images\Enemies\BlindRange\ZombieLookLeft.png" />
+    <Resource Include="Images\Enemies\BlindRange\ZombieLookLeft2.png" />
+    <Resource Include="Images\Enemies\BlindRange\ZombieLookRight.png" />
+    <Resource Include="Images\Enemies\BlindRange\ZombieLookRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\rock %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Area\Rock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\Rock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CollectableItem\key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NPC\MenuBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Weapon\ShotGun\ShotGun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Weapon\Rifle\Rifle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Weapon\BFG\PlazmaGun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Area\rock2.png" />
+    <Resource Include="Images\Area\Tree1.png" />
+    <Resource Include="Images\Area\Tree2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Menu\MenuBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Doors\OpenLeftDoor.png" />
+    <Resource Include="Images\Cave\Doors\OpenRightDoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Weapon\Pistol\Pistol.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Player\WithWeapon\Pistol\PlayerLookLeft.png" />
+    <Resource Include="Images\Player\WithWeapon\Pistol\PlayerLookRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Menu\Play.png" />
+    <Resource Include="Images\Menu\PlayPressed.png" />
+    <Resource Include="Images\Menu\Quit.png" />
+    <Resource Include="Images\Menu\QuitPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cave\Rooms\BossRoom.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

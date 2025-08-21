@@ -1,0 +1,60 @@
+﻿<Window x:Name="WindowShop" x:Class="Menu.ShopMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Menu"
+        mc:Ignorable="d"
+        Title="ShopMenu" Height="600" Width="400">
+    <Grid x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="32*"/>
+            <ColumnDefinition Width="101*"/>
+            <ColumnDefinition Width="144*"/>
+            <ColumnDefinition Width="102*"/>
+            <ColumnDefinition Width="19"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="31*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="143*"/>
+            <RowDefinition Height="131*"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/NPC/MenuBackground.png"/>
+        </Grid.Background>
+        <Button x:Name="ShotgunButton" Grid.Column="4" Content="Button" HorizontalAlignment="Center" Width="104" Grid.Row="1" Grid.RowSpan="1"  Height="80" VerticalAlignment="Center" Click="ShotgunButton_Click"/>
+        <Button x:Name="RifleButton" Grid.Column="4" Content="Button" Margin="0,0,0,20" Grid.Row="3" Grid.RowSpan="2" Click="RifleButton_Click"/>
+        <Button x:Name="PlazmaGunButton" Grid.Column="4" Content="Button" HorizontalAlignment="Center" Grid.Row="5" Grid.RowSpan="1"  VerticalAlignment="Center" Height="80" Width="102" Click="PlazmaGunButton_Click"/>
+        <Image Grid.Column="2" Height="53" VerticalAlignment="Center" HorizontalAlignment="Left" Width="192" Source="/Images/Weapon/ShotGun/ShotGun.png" Grid.Row="1" Name="ShotGunImage" Grid.ColumnSpan="2" Margin="1,0,0,0">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Weapon/ShotGun/ShotGun.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="70" Grid.Row="3" VerticalAlignment="Center" Width="235" Name="RifleImage" Source="/Images/Weapon/Rifle/Rifle.png" Stretch="Fill">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Weapon/Rifle/Rifle.png" Stretch="Uniform"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="80" Margin="1,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="191" Name="PlazmaGunImage" Source="/Images/Weapon/BFG/PlazmaGun.png" Grid.RowSpan="2">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Weapon/BFG/PlazmaGun.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Grid.Column="2" HorizontalAlignment="Center" Height="100" Grid.RowSpan="3" Grid.Row="6" VerticalAlignment="Top" Name="BombImage" Width="100" Source="/Images/CollectableItem/Bomb.png">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/CollectableItem/Bomb.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Button x:Name="Bomb_Button" Grid.Column="4" Content="Button" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Center" Height="80" Width="103" Click="Bomb_Button_Click"/>
+        <Button x:Name="NextButtton" Grid.Column="4" Content="Button" HorizontalAlignment="Center" Margin="0,122,0,0" Grid.Row="8" VerticalAlignment="Top" Height="51" Width="103" Click="NextButtton_Click"/>
+        <Button x:Name="BackButton" Grid.Column="2" Content="Button" HorizontalAlignment="Left" Margin="1,122,0,0" Grid.Row="8" VerticalAlignment="Top" Height="51" Width="103" Grid.ColumnSpan="2" Click="BackButton_Click"/>
+
+    </Grid>
+</Window>

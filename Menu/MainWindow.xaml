@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:Menu"
         mc:Ignorable="d"
         
-        Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
+        Title="MainWindow" Height="1080" Width="1920" WindowState="Maximized">
     <Grid x:Name="MenuScreen">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/Menu/MenuBackground.png"/>
+        </Grid.Background>
     </Grid>
 
 </Window>

@@ -20,14 +20,38 @@ namespace Menu
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        static Image StartImage = new Image()
+        {
+            Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Menu/Play.png", UriKind.Absolute)),
+            Stretch = Stretch.Fill
+        };
+        
+        static StackPanel Start = new StackPanel()
+        {
+            Margin = new Thickness(0, 0, 0, 0),
+            Children = {StartImage},
+        };
+
+        static Image ExitImage = new Image()
+        {
+            Source = new BitmapImage(new Uri("pack://application:,,,/Menu;component/Images/Menu/Quit.png", UriKind.Absolute)),
+            Stretch = Stretch.Fill
+        };
+
+        static StackPanel ExitB = new StackPanel()
+        {
+            Margin = new Thickness(0, 0, 0, 0),
+            Children = { ExitImage },
+        };
+
         Button NewGame = new Button
         {
             Margin = new Thickness(0, -100, 0, 0),
-            Width = 100,
-            Height = 60,
-            Foreground = Brushes.Black,
-            Content = "New Game"
-
+            Width = 220,
+            Height = 100,
+            Content = Start,
+            
         };
         Button Options = new Button
         {
@@ -35,16 +59,16 @@ namespace Menu
             Width = 100,
             Height = 60,
             Foreground = Brushes.Black,
-            Content = "Options"
+            Content = "Options",
+
 
         };
         Button Exit = new Button
         {
             Margin = new Thickness(0, 300, 0, 0),
-            Width = 100,
-            Height = 60,
-            Foreground = Brushes.Black,
-            Content = "Exit"
+            Width = 220,
+            Height = 100,
+            Content = ExitB,
         };
         Button New = new Button
         {
@@ -94,9 +118,8 @@ namespace Menu
         public MainWindow()
         {
             InitializeComponent();
-            MenuScreen.Children.Add(NewGame); MenuScreen.Children.Add(Options); MenuScreen.Children.Add(Exit);
+            MenuScreen.Children.Add(NewGame); MenuScreen.Children.Add(Exit);
             NewGame.Click += NewGame_Menu;
-            Options.Click += Options_Menu;
             //Exit.Click += ;
         }
         private void Start_Menu(object sender, RoutedEventArgs e)
@@ -108,10 +131,9 @@ namespace Menu
         }
         private void NewGame_Menu(object sender, RoutedEventArgs e)
         {
-            MenuScreen.Children.Clear();
-            MenuScreen.Children.Add(New); MenuScreen.Children.Add(Cont); MenuScreen.Children.Add(Back);
-            Back.Click += Start_Menu;
-            New.Click += Start_Game;
+            Window1 a = new Window1();
+            this.Close();
+            a.Show();
         }
         private void Options_Menu(object sender, RoutedEventArgs e)
         {

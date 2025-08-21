@@ -5,4 +5,142 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Menu"
         mc:Ignorable="d"
+<<<<<<< Updated upstream
         Title="Window1" Height="450" Width="800" WindowState="Maximized" KeyDown="KeyIsDown" KeyUp="KeyIsUp"/>
+=======
+        Title="Window1" Height="1080" Width="1920" WindowState="Maximized">
+    <Grid x:Name="Grid1" Width="2880" Height="1620">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="547*"/>
+            <RowDefinition Height="263*"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush TileMode="None" ImageSource="/Images/Area/Background.png"/>
+        </Grid.Background>
+        <Image Name="Cave1" Height="100" Width="100" Margin="138,315,0,0" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Images/Area/CloseCaveLeft.png" Tag="CaveDoor1">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Area/CloseCaveLeft.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Name="Cave2" Height="100" Width="100" Margin="602,216,0,0" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Images/Area/CloseCaveLeft.png" Tag="CaveDoor2">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Area/CloseCaveLeft.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Name="Cave3" Height="100" Width="100" Margin="1721,204,0,0" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Images/Area/CloseCaveRight.png" Tag="CaveDoor3">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Area/CloseCaveRight.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Name="Cave4" Height="100" Width="100" Margin="2720,265,0,0" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Images/Area/CloseCaveRight.png" Tag="CaveDoor4">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Area/CloseCaveRight.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image x:Name="BossRoom" Height="66" Width="142" Margin="1192,221,0,0" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Images/Cave/Doors/OpenedUpDoor.png" Tag="BossDoor" Visibility="Hidden">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/Images/Cave/Doors/OpenedUpDoor.png"/>
+            </Image.OpacityMask>
+        </Image>
+        <Image Margin="1440,140,1306,778" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="790,254,1955,711" Source="/Images/Area/rock.png" Stretch="Fill"/>
+        <Image Margin="351,266,2309,632" Source="/Images/Area/rock.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-8.12"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Margin="954,242,1734,646" Source="/Images/Area/rock.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-8.12"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Margin="2260,270,492,707" Source="/Images/Area/rock.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.82"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Margin="681,933,2025,40" Source="/Images/Area/rock.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-2.911"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Margin="11,593,2722,293" Source="/Images/Area/Tree1.png"  Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.536"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Margin="2232,638,527,284" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="2112,724,648,198" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1991,672,768,250" Source="/Images/Area/Tree2.png" Stretch="Fill" RenderTransformOrigin="0.603,0.539"/>
+        <Image Margin="659,668,2087,250" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="451,582,2295,336" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="518,756,2228,162" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="836,778,1866,184" Source="/Images/Area/rock2.png" Stretch="Fill"/>
+        <Image Margin="337,738,2409,180" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="44,844,2642,520" Source="/Images/Area/Tree2.png" Stretch="Fill" Grid.RowSpan="2"/>
+        <Image Margin="270,10,2476,340" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="2093,548,653,370" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="2353,541,329,284" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="2551,724,208,198" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="2253,795,454,137" Source="/Images/Area/rock.png" Stretch="Fill"/>
+        <Image Margin="2365,933,329,50" Source="/Images/Area/rock2.png" Stretch="Fill"/>
+        <Image Margin="2127,908,572,74" Source="/Images/Area/rock2.png" Stretch="Fill"/>
+        <Image Margin="1967,145,631,659" Source="/Images/Area/rock.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.273"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Margin="1144,263,1615,91" Grid.Row="1" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1398,98,1348,252" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="1192,86,1567,268" Grid.Row="1" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1053,186,1693,164" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="1380,263,1380,91" Grid.Row="1" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1070,10,1676,340" Source="/Images/Area/Tree1.png" Stretch="Fill" Grid.Row="1"/>
+        <Image Margin="1252,35,1430,217" Grid.Row="1" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1918,274,828,76" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="1991,87,755,263" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="1771,220,975,130" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="2093,220,653,130" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="1857,82,889,268" Grid.Row="1" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="518,117,2154,130" Source="/Images/Area/Tree2.png" Stretch="Fill" Grid.Row="1"/>
+        <Image Margin="2112,1043,486,263" Source="/Images/Area/Tree1.png" Stretch="Fill" Grid.RowSpan="2"/>
+        <Image Margin="2298,274,422,70" Grid.Row="1" Source="/Images/Area/rock.png" Stretch="Fill"/>
+        <Image Margin="2612,185,88,185" Grid.Row="1" Source="/Images/Area/rock2.png" Stretch="Fill"/>
+        <Image Margin="1650,498,1109,424" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1500,541,1259,381" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1721,795,1038,127" Source="/Images/Area/Tree2.png" Stretch="Fill"/>
+        <Image Margin="1380,844,1366,74" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+        <Image Margin="1252,638,1494,280" Source="/Images/Area/Tree1.png" Stretch="Fill"/>
+    </Grid>
+</Window>
+>>>>>>> Stashed changes
